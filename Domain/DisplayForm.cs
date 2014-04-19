@@ -16,7 +16,7 @@ namespace LedVestPlasmaGenerator.Domain
         public DisplayFormManager(int width, int height)
         {
             displayForm = new Form { Width = width, Height = height };
-            //displayForm.BackColor = Color.Black;
+            displayForm.BackColor = Color.Black;
             displayForm.Show();
         }
 
@@ -27,12 +27,12 @@ namespace LedVestPlasmaGenerator.Domain
             int y = (int)(displayForm.Height - (c.Y * (displayForm.Height / 21)) - 44); //flip by subtracting from wides, - 15 to move off edge
 
             Graphics graphics = displayForm.CreateGraphics();
-            Rectangle rectangle = new System.Drawing.Rectangle(x, y, pxSize, pxSize);
 
-            Pen pen = new Pen(ColorTranslator.FromWin32(CreateColorInt(r, g, b)));
-            
- 
-            graphics.DrawEllipse(pen, rectangle);
+           // Pen pen = new Pen(ColorTranslator.FromWin32(CreateColorInt(r, g, b)));
+
+            var brush = new SolidBrush(ColorTranslator.FromOle(CreateColorInt(r,g,b)));
+           
+            graphics.FillEllipse(brush, x, y, pxSize, pxSize);
         }
 
         public void Show(int frameNumber, int totalFrameCount)
@@ -46,12 +46,13 @@ namespace LedVestPlasmaGenerator.Domain
         {
             //combine red, green and blue bytes
             int result;
-
-            result = b & 0x000000FF;
+            result = 255;
             result <<= 8;
-            result += g & 0x000000FF; ;
+            result = b*2 & 0x000000FF;
             result <<= 8;
-            result += r & 0x000000FF; ;
+            result += g*2 & 0x000000FF; ;
+            result <<= 8;
+            result += r*2 & 0x000000FF; ;
 
             return result;
         }

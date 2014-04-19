@@ -22,7 +22,7 @@ namespace LedVestPlasmaGenerator
         {
            Plasma plasmaGenerator = new Plasma();
 
-           plasmaGenerator.GeneratePlasmaForVest(100, 80, 0.067, 100000, true);
+           plasmaGenerator.GeneratePlasmaForVest(100, 10, 0.067, 100000, true);
         }
 
     }

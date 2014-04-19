@@ -15,7 +15,7 @@ namespace LedVestPlasmaGenerator.Domain
         const int worldWidth = 645;
         const int worldHeight = 360;
 
-        const int displayPixelSize = 10;
+        const int displayPixelSize = 15;
 
         double movement;
         double brightness;
@@ -73,11 +73,16 @@ namespace LedVestPlasmaGenerator.Domain
             {
 
                 //create three different sin waves and combine the results
-                var shade = (
-                            SinVerticle(vest.leds[i].X, vest.leds[i].Y, size)
-                            + SinRotating(vest.leds[i].X, vest.leds[i].Y, size)
-                            + SinCircle(vest.leds[i].X, vest.leds[i].Y, size)
-                            );
+                var a = SinVerticle(vest.leds[i].X, vest.leds[i].Y, size);
+                var b = SinRotating(vest.leds[i].X, vest.leds[i].Y, size);
+               // var c = SinCircle(vest.leds[i].X, vest.leds[i].Y, size);
+                shade = a + b; // +c;
+                
+                //var shade = (
+                //            SinVerticle(vest.leds[i].X, vest.leds[i].Y, size)
+                //            + SinRotating(vest.leds[i].X, vest.leds[i].Y, size)
+                //            + SinCircle(vest.leds[i].X, vest.leds[i].Y, size)
+                //            );
 
                 //Create Colors from the shade
                 sinShadePiRed = Math.Sin(shade * Math.PI);
@@ -100,6 +105,7 @@ namespace LedVestPlasmaGenerator.Domain
                 if (showDisplay) displayFormManager.DisplayPixel(redShade, greenShade, blueShade, vest.leds[i], displayPixelSize); 
 
             }
+            movement += movementFactor;
             displayFormManager.Show(currentItteration, totalItterations);//show the current frame of plasma
         }
 
