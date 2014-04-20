@@ -4,80 +4,119 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Diagnostics;
+using System.Threading;
+using LedVestPlasmaGenerator.Repository;
 
 
 namespace LedVestPlasmaGenerator.Domain
 {
     public class Plasma
     {
-        VestManager vest;
+        private VestManager vest;
+        private DisplayManager DisplayManager;
+        private FileManager fileManager;
 
-        const int worldWidth = 645;
-        const int worldHeight = 360;
+        private Stopwatch stopWatch;
 
-        const int displayPixelSize = 15;
+        private const int worldWidth = 645;
+        private const int worldHeight = 360;
+        private const int displayPixelSize = 15;
 
-        double movement;
-        double brightness;
-        double size;
-
-        double movementFactor;
+        private double brightness;
+        private double size;
+        private double movement;
+        private double movementFactor;
+        private long previousFrameTime;
 
         //keep track of how many itterations have been 
-        int totalItterations;
-        int currentItteration;
+        private int totalItterations;
+        private int currentItteration;
+
+        private byte[] outputBuffer;
 
         //faster rendering if variables are global
-        int redShade, greenShade, blueShade; //rendered color shades
-        double dist, cx, cy; //circle animation
+        private int redShade, greenShade, blueShade; //rendered color shades
+        private double dist, cx, cy; //circle animation
 
         //helps manage maximum brightness
-        double minShade = -1.2;
-        double maxShade = 1.2;
+        private double minShade = -0.8;
+        private double maxShade = 0.8;
 
-        double sinShadePiRed, sinShadePiGreen, sinShadePiBlue;
+        private double sinShadePiRed, sinShadePiGreen, sinShadePiBlue;
 
-        double minShadeR, minShadeG, minShadeB;
-        double maxShadeR, maxShadeG, maxShadeB;
-        double shade = 0.1F;
+        private double minShadeR, minShadeG, minShadeB;
+        private double maxShadeR, maxShadeG, maxShadeB;
+        private double shade = 0.1F;
 
-        bool showDisplay;
+        private bool showDisplay;
 
-        DisplayFormManager displayFormManager;
+        //color control
+        private bool showRed, showGreen, showBlue, morphGreen, morphBlue;
 
-        public void GeneratePlasmaForVest(double _brightness, double _size, double _movementFactor, int _itterations, bool _display )
+        private string saveFileName;
+
+        public void GeneratePlasmaForVest(double _brightness, double _size, double _movementFactor, int _itterations, bool _display,
+                                          bool _showRed, bool _showGreen, bool _showBlue, bool _morphGreen, bool _morphBlue,
+                                          string _saveFileName)
         {
-            //copy in the variables
-            brightness = _brightness;
+            //set the variables
+            brightness = _brightness; 
             size = _size;
             movementFactor = _movementFactor;
             totalItterations = _itterations;
             showDisplay = _display;
+            showRed = _showRed;
+            showGreen = _showGreen;
+            showBlue = _showBlue;
+            morphGreen = _morphGreen;
+            morphBlue = _morphBlue;
+            saveFileName = _saveFileName;
 
             //declare a new instance of the vest manager
             vest = new VestManager();
 
-            displayFormManager = new DisplayFormManager(worldWidth, worldHeight);
+            //declare file manager
+            fileManager = new FileManager();
 
+            //instantiate the output buffer
+            outputBuffer = new byte[vest.leds.Length * 3 * totalItterations];
+
+            //instantiate the display manager
+            DisplayManager = new DisplayManager(worldWidth, worldHeight);
+
+            //Start a timer
+            if (showDisplay)
+            {
+                stopWatch = new Stopwatch();
+                stopWatch.Start();
+            }
+
+
+            //Generate Frames
             while (currentItteration++ < totalItterations)
             {
                 RenderPlasmaFrame();
             }
+
+            DisplayManager.Close();
+            WriteBufferToFile(saveFileName, outputBuffer);
         }
 
         public void RenderPlasmaFrame()
         {
-            //each itteration is advanced through time with the movement value, smaller value = slower movement
+            //Each itteration is advanced through time with the movement value, smaller value = slower movement
 
+            //itterate through all the LED's using the x and y co-ordinates to generate plasma
             for (int i = 0; i < vest.leds.Length; i++)
             {
 
                 //create three different sin waves and combine the results
                 var a = SinVerticle(vest.leds[i].X, vest.leds[i].Y, size);
                 var b = SinRotating(vest.leds[i].X, vest.leds[i].Y, size);
-               // var c = SinCircle(vest.leds[i].X, vest.leds[i].Y, size);
+                // var c = SinCircle(vest.leds[i].X, vest.leds[i].Y, size);
                 shade = a + b; // +c;
-                
+
                 //var shade = (
                 //            SinVerticle(vest.leds[i].X, vest.leds[i].Y, size)
                 //            + SinRotating(vest.leds[i].X, vest.leds[i].Y, size)
@@ -85,28 +124,59 @@ namespace LedVestPlasmaGenerator.Domain
                 //            );
 
                 //Create Colors from the shade
-                sinShadePiRed = Math.Sin(shade * Math.PI);
-                sinShadePiGreen = Math.Sin(shade * Math.PI + 2);
-                sinShadePiBlue = Math.Sin(shade * Math.PI + 4);
+                if (showRed) sinShadePiRed = Math.Sin(shade * Math.PI);
+                if (showGreen) sinShadePiGreen = Math.Sin(shade * Math.PI + 2);
+                if (showBlue) sinShadePiBlue = Math.Sin(shade * Math.PI + 4);
 
+                //helps ensure the entire brightness range is used.
                 SelfCorrectMapping();
-                
-                //map static colors
-                redShade = Map(sinShadePiRed, brightness);
-                greenShade = Map( sinShadePiGreen, brightness);
-                blueShade = Map( sinShadePiBlue, brightness);
 
-                //map to morphing colors
-                //greenShade = Map(Math.Sin(sinShadePiGreen * (Math.Sin(movement / 2)), brightness);
-                //blueShade = Map(Math.Sin(sinShadePiBlue * Math.PI * Math.Sin(movement / 7)), brightness);
+                //map colors
+                if (showRed) redShade = Map(sinShadePiRed, brightness);
+
+                if (showGreen)
+                {
+                    if (morphGreen)
+                    {
+                        greenShade = Map(Math.Sin(sinShadePiGreen * (Math.Sin(movement / 2))), brightness);
+                    }
+                    else
+                    {
+                        greenShade = Map(sinShadePiGreen, brightness);
+                    }
+                }
+
+                if (showBlue)
+                {
+                    if (morphBlue)
+                    {
+                        blueShade = Map(Math.Sin(sinShadePiBlue * Math.PI * Math.Sin(movement / 7)), brightness);
+                    }
+                    else
+                    {
+                        blueShade = Map(sinShadePiBlue, brightness);
+                    }
+                }
 
                 //WriteLedDataToFileBuffer(redShade, greenShade, blueShade, i);
 
-                if (showDisplay) displayFormManager.DisplayPixel(redShade, greenShade, blueShade, vest.leds[i], displayPixelSize); 
+                if (showDisplay) DisplayManager.DisplayPixel(redShade, greenShade, blueShade, vest.leds[i], displayPixelSize);
 
             }
+
             movement += movementFactor;
-            displayFormManager.Show(currentItteration, totalItterations);//show the current frame of plasma
+
+            if (showDisplay)
+            {
+                var elapsedTime = (long)stopWatch.Elapsed.TotalMilliseconds;
+                var loopTime = elapsedTime - previousFrameTime;
+                if (loopTime < 40)
+                {
+                    Thread.Sleep((int)(40 - (elapsedTime - previousFrameTime)));
+                }
+                previousFrameTime = elapsedTime;
+                DisplayManager.Show(currentItteration, totalItterations, (int)loopTime);//show the current frame of plasma
+            }
         }
 
         double SinVerticle(double x, double y, double s)
@@ -121,15 +191,14 @@ namespace LedVestPlasmaGenerator.Domain
 
         double SinCircle(double x, double y, double s)
         {
-            cx = worldWidth * Math.Sin(movement / 5) ;
-            cy = worldHeight * Math.Cos(movement / 10) ;
+            cx = worldWidth * Math.Sin(movement / 5);
+            cy = worldHeight * Math.Cos(movement / 10);
             //cx = worldWidth / 2.5 * ledFactor;
             //cy = worldHeight / 2.5 * ledFactor;
 
             dist = Math.Sqrt(Math.Sqrt(cy - y) + Math.Sqrt(cx - x));
             return Math.Sin((dist / s) + movement);
         }
-
 
         void SelfCorrectMapping()
         {
@@ -142,18 +211,18 @@ namespace LedVestPlasmaGenerator.Domain
             if (sinShadePiBlue > maxShade) maxShade = sinShadePiBlue;
         }
 
-        private void WriteBufferToFile(string saveFileName)
+        private void WriteBufferToFile(string saveFileName, byte[] outputBuffer)
         {
-            //FileManager.WriteBufferToFile(saveFileName, copyBuffer);
+            fileManager.WriteBufferToFile(saveFileName, outputBuffer);
         }
-        
-        private byte Map(double source, double brightness )
+
+        private byte Map(double source, double brightness)
         {
             var normalized = source - minShade;
             var scope = maxShade - minShade;
-            
+
             var percentage = normalized / scope;
-            return (byte)(brightness * percentage); 
+            return (byte)(brightness * percentage);
         }
 
         private int Color(int r, int g, int b)
