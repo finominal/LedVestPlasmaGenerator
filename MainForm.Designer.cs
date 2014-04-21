@@ -41,14 +41,19 @@
             this.groupBrightness = new System.Windows.Forms.GroupBox();
             this.lblBrightness = new System.Windows.Forms.Label();
             this.selBrightnes = new System.Windows.Forms.TrackBar();
-            this.textSaveAs = new System.Windows.Forms.TextBox();
+            this.txtSaveAs = new System.Windows.Forms.TextBox();
             this.btnFileSelect = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
             this.txtItterations = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
+            this.sizeGroup = new System.Windows.Forms.GroupBox();
+            this.txtSize = new System.Windows.Forms.Label();
+            this.selSize = new System.Windows.Forms.TrackBar();
             this.groupBox1.SuspendLayout();
             this.groupBrightness.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.selBrightnes)).BeginInit();
+            this.sizeGroup.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.selSize)).BeginInit();
             this.SuspendLayout();
             // 
             // btnGenerate
@@ -170,7 +175,7 @@
             this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(238, 133);
+            this.groupBox1.Size = new System.Drawing.Size(252, 167);
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Color Control";
@@ -182,7 +187,7 @@
             this.groupBrightness.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBrightness.Location = new System.Drawing.Point(281, 12);
             this.groupBrightness.Name = "groupBrightness";
-            this.groupBrightness.Size = new System.Drawing.Size(238, 68);
+            this.groupBrightness.Size = new System.Drawing.Size(238, 78);
             this.groupBrightness.TabIndex = 3;
             this.groupBrightness.TabStop = false;
             this.groupBrightness.Text = "Brightness";
@@ -190,7 +195,7 @@
             // lblBrightness
             // 
             this.lblBrightness.AutoSize = true;
-            this.lblBrightness.Location = new System.Drawing.Point(126, 25);
+            this.lblBrightness.Location = new System.Drawing.Point(200, 27);
             this.lblBrightness.Name = "lblBrightness";
             this.lblBrightness.Size = new System.Drawing.Size(32, 15);
             this.lblBrightness.TabIndex = 8;
@@ -198,24 +203,24 @@
             // 
             // selBrightnes
             // 
-            this.selBrightnes.Location = new System.Drawing.Point(15, 22);
+            this.selBrightnes.Location = new System.Drawing.Point(15, 25);
             this.selBrightnes.Minimum = 1;
             this.selBrightnes.Name = "selBrightnes";
-            this.selBrightnes.Size = new System.Drawing.Size(104, 42);
+            this.selBrightnes.Size = new System.Drawing.Size(179, 42);
             this.selBrightnes.TabIndex = 7;
             this.selBrightnes.Value = 2;
             this.selBrightnes.Scroll += new System.EventHandler(this.selBrightnes_Scroll);
             // 
-            // textSaveAs
+            // txtSaveAs
             // 
-            this.textSaveAs.Location = new System.Drawing.Point(12, 180);
-            this.textSaveAs.Name = "textSaveAs";
-            this.textSaveAs.Size = new System.Drawing.Size(426, 20);
-            this.textSaveAs.TabIndex = 0;
+            this.txtSaveAs.Location = new System.Drawing.Point(12, 213);
+            this.txtSaveAs.Name = "txtSaveAs";
+            this.txtSaveAs.Size = new System.Drawing.Size(426, 20);
+            this.txtSaveAs.TabIndex = 0;
             // 
             // btnFileSelect
             // 
-            this.btnFileSelect.Location = new System.Drawing.Point(444, 178);
+            this.btnFileSelect.Location = new System.Drawing.Point(444, 210);
             this.btnFileSelect.Name = "btnFileSelect";
             this.btnFileSelect.Size = new System.Drawing.Size(75, 23);
             this.btnFileSelect.TabIndex = 1;
@@ -226,7 +231,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(13, 164);
+            this.label5.Location = new System.Drawing.Point(13, 197);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(47, 13);
             this.label5.TabIndex = 4;
@@ -234,7 +239,7 @@
             // 
             // txtItterations
             // 
-            this.txtItterations.Location = new System.Drawing.Point(12, 234);
+            this.txtItterations.Location = new System.Drawing.Point(12, 261);
             this.txtItterations.Name = "txtItterations";
             this.txtItterations.Size = new System.Drawing.Size(100, 20);
             this.txtItterations.TabIndex = 5;
@@ -243,22 +248,55 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(13, 218);
+            this.label6.Location = new System.Drawing.Point(13, 245);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(53, 13);
             this.label6.TabIndex = 6;
             this.label6.Text = "Itterations";
+            // 
+            // sizeGroup
+            // 
+            this.sizeGroup.Controls.Add(this.txtSize);
+            this.sizeGroup.Controls.Add(this.selSize);
+            this.sizeGroup.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.sizeGroup.Location = new System.Drawing.Point(281, 97);
+            this.sizeGroup.Name = "sizeGroup";
+            this.sizeGroup.Size = new System.Drawing.Size(238, 82);
+            this.sizeGroup.TabIndex = 9;
+            this.sizeGroup.TabStop = false;
+            this.sizeGroup.Text = "Size";
+            // 
+            // txtSize
+            // 
+            this.txtSize.AutoSize = true;
+            this.txtSize.Location = new System.Drawing.Point(201, 31);
+            this.txtSize.Name = "txtSize";
+            this.txtSize.Size = new System.Drawing.Size(14, 15);
+            this.txtSize.TabIndex = 8;
+            this.txtSize.Text = "5";
+            // 
+            // selSize
+            // 
+            this.selSize.Location = new System.Drawing.Point(15, 31);
+            this.selSize.Maximum = 20;
+            this.selSize.Minimum = 1;
+            this.selSize.Name = "selSize";
+            this.selSize.Size = new System.Drawing.Size(180, 42);
+            this.selSize.TabIndex = 7;
+            this.selSize.Value = 5;
+            this.selSize.Scroll += new System.EventHandler(this.trackBar1_Scroll);
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(533, 444);
+            this.Controls.Add(this.sizeGroup);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.txtItterations);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.btnFileSelect);
-            this.Controls.Add(this.textSaveAs);
+            this.Controls.Add(this.txtSaveAs);
             this.Controls.Add(this.groupBrightness);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.btnGenerate);
@@ -269,6 +307,9 @@
             this.groupBrightness.ResumeLayout(false);
             this.groupBrightness.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.selBrightnes)).EndInit();
+            this.sizeGroup.ResumeLayout(false);
+            this.sizeGroup.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.selSize)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -288,12 +329,15 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBrightness;
         private System.Windows.Forms.Button btnFileSelect;
-        private System.Windows.Forms.TextBox textSaveAs;
+        private System.Windows.Forms.TextBox txtSaveAs;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox txtItterations;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label lblBrightness;
         private System.Windows.Forms.TrackBar selBrightnes;
+        private System.Windows.Forms.GroupBox sizeGroup;
+        private System.Windows.Forms.Label txtSize;
+        private System.Windows.Forms.TrackBar selSize;
     }
 }
 

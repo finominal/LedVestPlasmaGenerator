@@ -94,9 +94,10 @@ namespace LedVestPlasmaGenerator.Domain
 
 
             //Generate Frames
-            while (currentItteration++ < totalItterations)
+            while (currentItteration < totalItterations)
             {
                 RenderPlasmaFrame();
+                currentItteration++;
             }
 
             DisplayManager.Close();
@@ -112,9 +113,9 @@ namespace LedVestPlasmaGenerator.Domain
             {
 
                 //create three different sin waves and combine the results
-                var a = SinVerticle(vest.leds[i].X, vest.leds[i].Y, size);
+                var a = 0; // SinVerticle(vest.leds[i].X, vest.leds[i].Y, size);
                 var b = SinRotating(vest.leds[i].X, vest.leds[i].Y, size);
-                // var c = SinCircle(vest.leds[i].X, vest.leds[i].Y, size);
+                 var c = 0 ; SinCircle(vest.leds[i].X, vest.leds[i].Y, size);
                 shade = a + b; // +c;
 
                 //var shade = (
@@ -158,7 +159,7 @@ namespace LedVestPlasmaGenerator.Domain
                     }
                 }
 
-                //WriteLedDataToFileBuffer(redShade, greenShade, blueShade, i);
+                WriteLedDataToFileBuffer(redShade, greenShade, blueShade, i);
 
                 if (showDisplay) DisplayManager.DisplayPixel(redShade, greenShade, blueShade, vest.leds[i], displayPixelSize);
 
@@ -239,10 +240,13 @@ namespace LedVestPlasmaGenerator.Domain
 
         }
 
-        /*
-          GeneratePlasmaForVest(128, 80, 4, 0.067, true  );
-         
-         */
+        private void WriteLedDataToFileBuffer(int redShade, int greenShade, int blueShade, int idx)
+        {
+            var positon = (currentItteration * vest.leds.Length) + (idx * 3);
+            outputBuffer[positon] = (byte)redShade;
+            outputBuffer[positon + 1] = (byte)greenShade;
+            outputBuffer[positon + 2] = (byte)blueShade;
+        }
 
     }
 }

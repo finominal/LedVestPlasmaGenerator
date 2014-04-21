@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using LedVestPlasmaGenerator.Domain;
 using LedVestPlasmaGenerator.Validation;
+using LedVestPlasmaGenerator.Plasma;
+
 
 namespace LedVestPlasmaGenerator
 {
@@ -23,31 +25,21 @@ namespace LedVestPlasmaGenerator
         {
             if (!AreParametersValid()) return;
 
-            Plasma plasmaGenerator = new Plasma();
-
-            plasmaGenerator.GeneratePlasmaForVest(
-                (double)selBrightnes.Value * 25,
-                5, //size, inverse
-                0.097, //advance time
-                100000, //itterations
-                true, //display, slower to do this by a factor of 1000
-                ckRedShow.Checked,
-                ckGreenShow.Checked,
-                ckBlueShow.Checked,
-                ckGreenMorph.Checked,
-                ckBlueMorph.Checked,
-                textSaveAs.Text
-             );
+            PlasmaManager plasma = new PlasmaManager();
+        
+            plasma.ExecutePlasma(int.Parse(txtItterations.Text), selBrightnes.Value, selSize.Value, txtSaveAs.Text, 
+                ckRedShow.Checked, ckGreenShow.Checked, ckBlueShow.Checked, ckGreenMorph.Checked, ckBlueMorph.Checked);
+        
         }
-
+        
         private bool AreParametersValid()
         {
             Validator validate = new Validator();
 
-            if (this.textSaveAs.Text.Length == 0)
+            if (this.txtSaveAs.Text.Length == 0)
             {
                 MessageBox.Show("Please select a file to save as.");
-                this.textSaveAs.Focus();
+                this.txtSaveAs.Focus();
                 return false;
             }
 
@@ -66,14 +58,14 @@ namespace LedVestPlasmaGenerator
             var fileName = CreateFileName("LedFile (*.led)|*.led");
             if (fileName != null)
             {
-                textSaveAs.Text = fileName;
+                txtSaveAs.Text = fileName;
             }
         }
 
         private String CreateFileName(String filter)
         {
             var dlg = new SaveFileDialog { Filter = filter, RestoreDirectory = true };
-            if (textSaveAs.Text.Length > 0)
+            if (txtSaveAs.Text.Length > 0)
             {
                 dlg.InitialDirectory = GetCurrentFilePath();
             }
@@ -83,7 +75,7 @@ namespace LedVestPlasmaGenerator
 
         private String GetCurrentFilePath()
         {
-            return textSaveAs.Text.Substring(0, textSaveAs.Text.LastIndexOf("\\") + 1);
+            return txtSaveAs.Text.Substring(0, txtSaveAs.Text.LastIndexOf("\\") + 1);
         }
 
         private void selBrightnes_Scroll(object sender, EventArgs e)
@@ -101,6 +93,11 @@ namespace LedVestPlasmaGenerator
         {
             //disable the morphing check, just to look neater
             ckBlueMorph.Enabled = ckBlueShow.Checked;
+        }
+
+        private void trackBar1_Scroll(object sender, EventArgs e)
+        {
+            txtSize.Text = selBrightnes.Value.ToString();
         }
     }
 }

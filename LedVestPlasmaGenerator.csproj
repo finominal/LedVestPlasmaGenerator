@@ -46,7 +46,7 @@
   <ItemGroup>
     <Compile Include="Domain\Display.cs" />
     <Compile Include="Domain\LED.cs" />
-    <Compile Include="Domain\Plasma.cs" />
+    <None Include="Domain\Plasma.cs_" />
     <Compile Include="Domain\VestManager.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
@@ -54,6 +54,9 @@
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Plasma\IPlasma.cs" />
+    <Compile Include="Plasma\PlasmaManager.cs" />
+    <Compile Include="Plasma\PlasmaSinXY.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\FileManager.cs" />
