@@ -49,11 +49,16 @@
             this.sizeGroup = new System.Windows.Forms.GroupBox();
             this.txtSize = new System.Windows.Forms.Label();
             this.selSize = new System.Windows.Forms.TrackBar();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.txtSpeed = new System.Windows.Forms.Label();
+            this.selSpeed = new System.Windows.Forms.TrackBar();
             this.groupBox1.SuspendLayout();
             this.groupBrightness.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.selBrightnes)).BeginInit();
             this.sizeGroup.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.selSize)).BeginInit();
+            this.groupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.selSpeed)).BeginInit();
             this.SuspendLayout();
             // 
             // btnGenerate
@@ -213,14 +218,14 @@
             // 
             // txtSaveAs
             // 
-            this.txtSaveAs.Location = new System.Drawing.Point(12, 213);
+            this.txtSaveAs.Location = new System.Drawing.Point(12, 323);
             this.txtSaveAs.Name = "txtSaveAs";
             this.txtSaveAs.Size = new System.Drawing.Size(426, 20);
             this.txtSaveAs.TabIndex = 0;
             // 
             // btnFileSelect
             // 
-            this.btnFileSelect.Location = new System.Drawing.Point(444, 210);
+            this.btnFileSelect.Location = new System.Drawing.Point(446, 320);
             this.btnFileSelect.Name = "btnFileSelect";
             this.btnFileSelect.Size = new System.Drawing.Size(75, 23);
             this.btnFileSelect.TabIndex = 1;
@@ -231,7 +236,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(13, 197);
+            this.label5.Location = new System.Drawing.Point(13, 305);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(47, 13);
             this.label5.TabIndex = 4;
@@ -239,7 +244,7 @@
             // 
             // txtItterations
             // 
-            this.txtItterations.Location = new System.Drawing.Point(12, 261);
+            this.txtItterations.Location = new System.Drawing.Point(12, 372);
             this.txtItterations.Name = "txtItterations";
             this.txtItterations.Size = new System.Drawing.Size(100, 20);
             this.txtItterations.TabIndex = 5;
@@ -248,7 +253,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(13, 245);
+            this.label6.Location = new System.Drawing.Point(13, 356);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(53, 13);
             this.label6.TabIndex = 6;
@@ -286,11 +291,44 @@
             this.selSize.Value = 5;
             this.selSize.Scroll += new System.EventHandler(this.trackBar1_Scroll);
             // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.txtSpeed);
+            this.groupBox2.Controls.Add(this.selSpeed);
+            this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox2.Location = new System.Drawing.Point(283, 195);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(238, 82);
+            this.groupBox2.TabIndex = 10;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Speed";
+            // 
+            // txtSpeed
+            // 
+            this.txtSpeed.AutoSize = true;
+            this.txtSpeed.Location = new System.Drawing.Point(201, 31);
+            this.txtSpeed.Name = "txtSpeed";
+            this.txtSpeed.Size = new System.Drawing.Size(21, 15);
+            this.txtSpeed.TabIndex = 8;
+            this.txtSpeed.Text = "67";
+            // 
+            // selSpeed
+            // 
+            this.selSpeed.Location = new System.Drawing.Point(15, 31);
+            this.selSpeed.Maximum = 100;
+            this.selSpeed.Minimum = 1;
+            this.selSpeed.Name = "selSpeed";
+            this.selSpeed.Size = new System.Drawing.Size(180, 42);
+            this.selSpeed.TabIndex = 7;
+            this.selSpeed.Value = 67;
+            this.selSpeed.Scroll += new System.EventHandler(this.selSpeed_Scroll);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(533, 444);
+            this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.sizeGroup);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.txtItterations);
@@ -310,6 +348,9 @@
             this.sizeGroup.ResumeLayout(false);
             this.sizeGroup.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.selSize)).EndInit();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.selSpeed)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -338,6 +379,9 @@
         private System.Windows.Forms.GroupBox sizeGroup;
         private System.Windows.Forms.Label txtSize;
         private System.Windows.Forms.TrackBar selSize;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.Label txtSpeed;
+        private System.Windows.Forms.TrackBar selSpeed;
     }
 }
 

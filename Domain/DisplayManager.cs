@@ -7,20 +7,21 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Drawing;
 using System.Threading;
+using System.Diagnostics;
 
 namespace LedVestPlasmaGenerator.Domain
 {
     public class DisplayManager
     {
         private Form displayForm;
+        private Graphics graphics;
+
         private bool running = true;
         private const int lowerArea = 60;
-        private Graphics graphics;
+
 
         public DisplayManager(int width, int height)
         {
-            
-
             displayForm = new Form { Width = width, Height = height + lowerArea };
             displayForm.BackColor = Color.Black;
 
@@ -50,12 +51,9 @@ namespace LedVestPlasmaGenerator.Domain
             int x = (int)((c.X * (displayForm.Width / 33) ) + 8); //  /33 to space appropriately, + 8 off edge
             int y = (int)((displayForm.Height - lowerArea) - (c.Y * ((displayForm.Height - lowerArea) / 21)) - 44); //flip by subtracting from wides, - 15 to move off edge
 
-            
-
+            //paint the elipse
             var brush = new SolidBrush(ColorTranslator.FromOle(CreateColorInt(r,g,b)));
-           
             graphics.FillEllipse(brush, x, y, pxSize, pxSize);
-            
         }
 
         public void Show(int frameNumber, int totalFrameCount, int loopTime)

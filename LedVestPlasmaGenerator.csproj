@@ -44,7 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Domain\Display.cs" />
+    <Compile Include="Domain\DisplayManager.cs" />
     <Compile Include="Domain\LED.cs" />
     <None Include="Domain\Plasma.cs_" />
     <Compile Include="Domain\VestManager.cs" />

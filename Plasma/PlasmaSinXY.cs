@@ -20,8 +20,8 @@ namespace LedVestPlasmaGenerator.Plasma
 
         public void SetParameters(int _brightness, int _size, bool _showRed, bool _showGreen, bool _showBlue, bool _morphGreen, bool _morphBlue)
         {
-            brightness = _brightness;
-            size = _size;
+            brightness = _brightness * 25;
+            size = _size ; //rescale
             showRed = _showRed;
             showGreen = _showGreen;
             showBlue = _showBlue;
@@ -29,7 +29,7 @@ namespace LedVestPlasmaGenerator.Plasma
             morphBlue = _morphBlue;
         }
 
-        public byte[] RenderPlasmaFrame(int x, int y, double movement)
+        public byte[] RenderPlasmaPixel(int x, int y, double movement)
         {
             byte[] result = new byte[3];
             double sinShadePiRed, sinShadePiGreen, sinShadePiBlue;

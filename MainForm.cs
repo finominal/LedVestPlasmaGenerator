@@ -27,7 +27,8 @@ namespace LedVestPlasmaGenerator
 
             PlasmaManager plasma = new PlasmaManager();
         
-            plasma.ExecutePlasma(int.Parse(txtItterations.Text), selBrightnes.Value, selSize.Value, txtSaveAs.Text, 
+            plasma.ExecutePlasma(int.Parse(txtItterations.Text), selBrightnes.Value, selSize.Value, selSpeed.Value, txtSaveAs.Text, 
+                true, //display 
                 ckRedShow.Checked, ckGreenShow.Checked, ckBlueShow.Checked, ckGreenMorph.Checked, ckBlueMorph.Checked);
         
         }
@@ -97,7 +98,12 @@ namespace LedVestPlasmaGenerator
 
         private void trackBar1_Scroll(object sender, EventArgs e)
         {
-            txtSize.Text = selBrightnes.Value.ToString();
+            txtSize.Text = selSize.Value.ToString();
+        }
+
+        private void selSpeed_Scroll(object sender, EventArgs e)
+        {
+            txtSpeed.Text = selSpeed.Value.ToString();
         }
     }
 }
