@@ -64,7 +64,7 @@ namespace LedVestPlasmaGenerator.Plasma
                     if (display) displayManager.DisplayPixel(color[0], color[1], color[2], vestManager.leds[i], 10);
                 }
 
-                movement += speed /1000;
+                movement += speed / 1000;
                 currentItternation++;
                 if (display)
                 {
@@ -76,9 +76,6 @@ namespace LedVestPlasmaGenerator.Plasma
 
             //write file 
         }
-
-        private void DisplayCurrentFrame()
-        { }
 
         private IPlasma ChoosePlasma()
         {
