@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks; 
 using System.Diagnostics;
 using LedVestPlasmaGenerator.Domain;
+using LedVestPlasmaGenerator.Repository;
 
 namespace LedVestPlasmaGenerator.Plasma
 {
@@ -20,7 +21,7 @@ namespace LedVestPlasmaGenerator.Plasma
         private double movement = 0;
         private double speed;
 
-        private string fileMane;
+        private string fileNane;
 
         private int lastFrameDisplayTime;
         private bool display;
@@ -33,10 +34,10 @@ namespace LedVestPlasmaGenerator.Plasma
             stopWatch.Start();
         }
 
-        public void ExecutePlasma(int _itterations, int _brightness, int size, double _speed, string _fileName, bool _display, bool _showRed, bool _showGreen, bool _showBlue, bool _morphGreen, bool _morphBlue)
+        public void GeneratePlasma(int _itterations, int _brightness, int size, double _speed, string _fileName, bool _display, bool _showRed, bool _showGreen, bool _showBlue, bool _morphGreen, bool _morphBlue)
         {
             itterations = _itterations;
-            fileMane = _fileName;
+            fileNane = _fileName;
             speed = _speed;
             display = _display;
 
@@ -74,7 +75,8 @@ namespace LedVestPlasmaGenerator.Plasma
                 }
             }
 
-            //write file 
+            FileManager.WriteBufferToFile(fileNane, buffer, vestManager.leds.Count());
+            displayManager.Close();
         }
 
         private IPlasma ChoosePlasma()

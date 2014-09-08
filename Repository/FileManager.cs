@@ -2,19 +2,30 @@
 
 namespace LedVestPlasmaGenerator.Repository
 {
-    public class FileManager
+    public static class FileManager
     {
-        public void WriteBufferToFile(string fileName, byte[] data)
+        public static void WriteBufferToFile(string fileName, byte[] data, int ledCount)
         {
             if (File.Exists(fileName))
             {
                 File.Delete(fileName);
             }
 
+            var header = TransformInteger(ledCount);
+
             using (var file = File.Create(fileName))
             {
+                file.Write(header,0,header.Length);
                 file.Write(data, 0, data.Length);
             }
+        }
+
+        private static byte[] TransformInteger(int number)
+        {
+            byte[] result = new byte[2];
+            result[1] = (byte)number;
+            result[0] = (byte)(number >> 8);
+            return result;
         }
     }
 }

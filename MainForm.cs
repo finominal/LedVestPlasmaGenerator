@@ -26,8 +26,8 @@ namespace LedVestPlasmaGenerator
             if (!AreParametersValid()) return;
 
             PlasmaManager plasma = new PlasmaManager();
-        
-            plasma.ExecutePlasma(int.Parse(txtItterations.Text), selBrightnes.Value, selSize.Value, selSpeed.Value, txtSaveAs.Text, 
+
+            plasma.GeneratePlasma(int.Parse(txtItterations.Text), selBrightnes.Value, selSize.Value, selSpeed.Value, txtSaveAs.Text, 
                 true, //display 
                 ckRedShow.Checked, ckGreenShow.Checked, ckBlueShow.Checked, ckGreenMorph.Checked, ckBlueMorph.Checked);
         

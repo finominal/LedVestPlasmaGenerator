@@ -44,8 +44,8 @@ namespace LedVestPlasmaGenerator.Plasma
 
             //separated for debugging
             var a = SinVerticle(x, y, size*2, movement);
-            var b = 0; //SinRotating(x, y, size, movement);
-            var c = 0; // SinCircle(x, y, size, movement);
+            var b =  SinRotating(x, y, size, movement);
+            var c =  SinCircle(x, y, size, movement);
             var shade = (a + b + c) /3;
 
             //Create Colors from the shade
@@ -97,12 +97,12 @@ namespace LedVestPlasmaGenerator.Plasma
         private double SinCircle(double x, double y, double size, double movement)
         {
             //moving circle 
-            //var cx = worldWidth * Math.Sin(movement / 5);
-            //var cy = worldHeight * Math.Cos(movement / 10);
+            var cx = worldWidth * Math.Sin(movement / 5);
+            var cy = worldHeight * Math.Cos(movement / 10);
             
             //stationary circle
-            var cx = worldWidth / 2 ;
-            var cy = worldHeight / 2;
+            //var cx = worldWidth / 2 ;
+            //var cy = worldHeight / 2;
  
             var dist = Math.Sqrt(Math.Pow(cy - y,2) + Math.Pow(cx - x,2));
             var result = Math.Sin((dist / size * 2) + movement);
