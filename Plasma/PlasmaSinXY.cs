@@ -9,16 +9,19 @@ namespace LedVestPlasmaGenerator.Plasma
     public class PlasmaSinXY : IPlasma
     {
         //color control
-        bool showRed, showGreen, showBlue, morphGreen, morphBlue;
+        bool showRed, showGreen, showBlue, morphGreen, morphBlue, showPink;
         double brightness;
         double size;
         double minShade = -1.1;
         double maxShade = 1.1;
 
-        double  worldWidth = 33;
-        double worldHeight = 19;
+        //double  worldWidth = 33;
+        //double worldHeight = 19;
 
-        public void SetParameters(int _brightness, int _size, bool _showRed, bool _showGreen, bool _showBlue, bool _morphGreen, bool _morphBlue)
+        double worldWidth = 278;
+        double worldHeight = 224;
+
+        public void SetParameters(int _brightness, int _size, bool _showRed, bool _showGreen, bool _showBlue, bool _morphGreen, bool _morphBlue, bool _showPink)
         {
             brightness = _brightness * 25;
             size = _size ; //rescale
@@ -27,6 +30,7 @@ namespace LedVestPlasmaGenerator.Plasma
             showBlue = _showBlue;
             morphGreen = _morphGreen;
             morphBlue = _morphBlue;
+            ; showPink = _showPink;
         }
 
         public byte[] RenderPlasmaPixel(int x, int y, double movement)
@@ -43,44 +47,57 @@ namespace LedVestPlasmaGenerator.Plasma
             //            );
 
             //separated for debugging
-            var a = SinVerticle(x, y, size*2, movement);
+            var a =  SinVerticle(x, y, size * 2, movement);
             var b =  SinRotating(x, y, size, movement);
-            var c =  SinCircle(x, y, size, movement);
-            var shade = (a + b + c) /3;
+            var c = SinCircle(x, y, size, movement);
+            var shade = (a + b + c) /2;
 
-            //Create Colors from the shade
-            if (showRed) sinShadePiRed = Math.Sin(shade * Math.PI);
-            if (showGreen) sinShadePiGreen = Math.Sin(shade * Math.PI +(Math.PI/2));
-            if (showBlue) sinShadePiBlue = Math.Sin(shade * Math.PI + Math.PI);
-
-            //map colors
-            if (showRed) result[0] = Map(sinShadePiRed, brightness);
-
-            
-            if (showGreen)
+            if (showPink)
             {
-                if (morphGreen)
+                sinShadePiBlue = Math.Sin(shade * Math.PI) ;
+                sinShadePiRed = Math.Sin(shade * Math.PI);
+                sinShadePiGreen = Math.Sin(shade * Math.PI) ;
+
+                result[2] = Map(sinShadePiBlue, brightness/2);
+                result[0] = Map(sinShadePiRed, brightness);
+                result[1] = Map(sinShadePiGreen, brightness/8);
+            }
+            else
+            {
+                //Create Colors from the shade
+                if (showRed) sinShadePiRed = Math.Sin(shade * Math.PI);
+                if (showGreen) sinShadePiGreen = Math.Sin(shade * Math.PI + (Math.PI / 2));
+                if (showBlue) sinShadePiBlue = Math.Sin(shade * Math.PI + Math.PI);
+
+
+                //map colors
+                if (showRed) result[0] = Map(sinShadePiRed, brightness);
+
+
+                if (showGreen)
                 {
-                    result[1] = Map(Math.Sin(sinShadePiGreen * (Math.Sin(movement / 2))), brightness);
+                    if (morphGreen)
+                    {
+                        result[1] = Map(Math.Sin(sinShadePiGreen * (Math.Sin(movement / 2))), brightness);
+                    }
+                    else
+                    {
+                        result[1] = Map(sinShadePiGreen, brightness);
+                    }
                 }
-                else
+
+                if (showBlue)
                 {
-                    result[1] = Map(sinShadePiGreen, brightness);
+                    if (morphBlue)
+                    {
+                        result[2] = Map(Math.Sin(sinShadePiBlue * Math.PI * Math.Sin(movement / 13)), brightness);
+                    }
+                    else
+                    {
+                        result[2] = Map(sinShadePiBlue, brightness);
+                    }
                 }
             }
-
-            if (showBlue)
-            {
-                if (morphBlue)
-                {
-                    result[2] = Map(Math.Sin(sinShadePiBlue * Math.PI * Math.Sin(movement / 7)), brightness);
-                }
-                else
-                {
-                    result[2] = Map(sinShadePiBlue, brightness);
-                }
-            }
-
             return result;
        }
 
@@ -97,12 +114,12 @@ namespace LedVestPlasmaGenerator.Plasma
         private double SinCircle(double x, double y, double size, double movement)
         {
             //moving circle 
-            var cx = worldWidth * Math.Sin(movement / 5);
-            var cy = worldHeight * Math.Cos(movement / 10);
+            var cx = worldWidth * 2 * Math.Sin(movement /5);
+            var cy = worldHeight * 2 * Math.Cos(movement /5);
             
             //stationary circle
-            //var cx = worldWidth / 2 ;
-            //var cy = worldHeight / 2;
+            //cx = worldWidth / 2 ;
+            //cy = worldHeight / 2;
  
             var dist = Math.Sqrt(Math.Pow(cy - y,2) + Math.Pow(cx - x,2));
             var result = Math.Sin((dist / size * 2) + movement);

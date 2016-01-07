@@ -27,9 +27,9 @@ namespace LedVestPlasmaGenerator
 
             PlasmaManager plasma = new PlasmaManager();
 
-            plasma.GeneratePlasma(int.Parse(txtItterations.Text), selBrightnes.Value, selSize.Value, selSpeed.Value, txtSaveAs.Text, 
-                true, //display 
-                ckRedShow.Checked, ckGreenShow.Checked, ckBlueShow.Checked, ckGreenMorph.Checked, ckBlueMorph.Checked);
+            plasma.GeneratePlasma(int.Parse(txtItterations.Text), selBrightnes.Value, selSize.Value*5, selSpeed.Value*2, txtSaveAs.Text,
+                ckDisplay.Checked, //display 
+                ckRedShow.Checked, ckGreenShow.Checked, ckBlueShow.Checked, ckGreenMorph.Checked, ckBlueMorph.Checked, ckPinkShow.Checked);
         
         }
         
@@ -88,12 +88,15 @@ namespace LedVestPlasmaGenerator
         {
             //disable the morphing check, just to look neater
             ckGreenMorph.Enabled = ckGreenShow.Checked;
+            ckPinkShow.Checked = false;
         }
 
         private void ckBlueShow_CheckedChanged(object sender, EventArgs e)
         {
             //disable the morphing check, just to look neater
             ckBlueMorph.Enabled = ckBlueShow.Checked;
+            
+            ckPinkShow.Checked = false;
         }
 
         private void trackBar1_Scroll(object sender, EventArgs e)
@@ -104,6 +107,21 @@ namespace LedVestPlasmaGenerator
         private void selSpeed_Scroll(object sender, EventArgs e)
         {
             txtSpeed.Text = selSpeed.Value.ToString();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            txtItterations.Text = "100000";
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            ckBlueShow.Checked = ckRedShow.Checked = ckGreenShow.Checked = false;
+        }
+
+        private void ckRedShow_CheckedChanged(object sender, EventArgs e)
+        {
+            ckPinkShow.Checked = false;
         }
     }
 }

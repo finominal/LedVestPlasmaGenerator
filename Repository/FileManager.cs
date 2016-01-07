@@ -17,6 +17,7 @@ namespace LedVestPlasmaGenerator.Repository
             {
                 file.Write(header,0,header.Length);
                 file.Write(data, 0, data.Length);
+                file.Close();
             }
         }
 

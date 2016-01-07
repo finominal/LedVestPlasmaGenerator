@@ -38,6 +38,8 @@
             this.ckRedShow = new System.Windows.Forms.CheckBox();
             this.label2 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.ckPinkShow = new System.Windows.Forms.CheckBox();
             this.groupBrightness = new System.Windows.Forms.GroupBox();
             this.lblBrightness = new System.Windows.Forms.Label();
             this.selBrightnes = new System.Windows.Forms.TrackBar();
@@ -52,6 +54,8 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.txtSpeed = new System.Windows.Forms.Label();
             this.selSpeed = new System.Windows.Forms.TrackBar();
+            this.ckDisplay = new System.Windows.Forms.CheckBox();
+            this.button1 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBrightness.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.selBrightnes)).BeginInit();
@@ -111,7 +115,7 @@
             // 
             this.ckBlueMorph.AutoSize = true;
             this.ckBlueMorph.ForeColor = System.Drawing.Color.Blue;
-            this.ckBlueMorph.Location = new System.Drawing.Point(139, 98);
+            this.ckBlueMorph.Location = new System.Drawing.Point(139, 99);
             this.ckBlueMorph.Name = "ckBlueMorph";
             this.ckBlueMorph.Size = new System.Drawing.Size(62, 19);
             this.ckBlueMorph.TabIndex = 2;
@@ -155,6 +159,7 @@
             this.ckRedShow.TabIndex = 1;
             this.ckRedShow.Text = "Show";
             this.ckRedShow.UseVisualStyleBackColor = true;
+            this.ckRedShow.CheckedChanged += new System.EventHandler(this.ckRedShow_CheckedChanged);
             // 
             // label2
             // 
@@ -169,6 +174,8 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.label1);
+            this.groupBox1.Controls.Add(this.ckPinkShow);
             this.groupBox1.Controls.Add(this.ckBlueMorph);
             this.groupBox1.Controls.Add(this.ckGreenMorph);
             this.groupBox1.Controls.Add(this.ckRedShow);
@@ -184,6 +191,27 @@
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Color Control";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.ForeColor = System.Drawing.Color.DeepPink;
+            this.label1.Location = new System.Drawing.Point(15, 139);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(39, 15);
+            this.label1.TabIndex = 4;
+            this.label1.Text = "PINK";
+            // 
+            // ckPinkShow
+            // 
+            this.ckPinkShow.AutoSize = true;
+            this.ckPinkShow.Location = new System.Drawing.Point(71, 140);
+            this.ckPinkShow.Name = "ckPinkShow";
+            this.ckPinkShow.Size = new System.Drawing.Size(15, 14);
+            this.ckPinkShow.TabIndex = 3;
+            this.ckPinkShow.UseVisualStyleBackColor = true;
+            this.ckPinkShow.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
             // groupBrightness
             // 
@@ -204,7 +232,7 @@
             this.lblBrightness.Name = "lblBrightness";
             this.lblBrightness.Size = new System.Drawing.Size(32, 15);
             this.lblBrightness.TabIndex = 8;
-            this.lblBrightness.Text = "20%";
+            this.lblBrightness.Text = "60%";
             // 
             // selBrightnes
             // 
@@ -213,15 +241,16 @@
             this.selBrightnes.Name = "selBrightnes";
             this.selBrightnes.Size = new System.Drawing.Size(179, 42);
             this.selBrightnes.TabIndex = 7;
-            this.selBrightnes.Value = 2;
+            this.selBrightnes.Value = 6;
             this.selBrightnes.Scroll += new System.EventHandler(this.selBrightnes_Scroll);
             // 
             // txtSaveAs
             // 
-            this.txtSaveAs.Location = new System.Drawing.Point(12, 323);
+            this.txtSaveAs.Location = new System.Drawing.Point(12, 321);
             this.txtSaveAs.Name = "txtSaveAs";
             this.txtSaveAs.Size = new System.Drawing.Size(426, 20);
             this.txtSaveAs.TabIndex = 0;
+            this.txtSaveAs.Text = "test";
             // 
             // btnFileSelect
             // 
@@ -248,7 +277,7 @@
             this.txtItterations.Name = "txtItterations";
             this.txtItterations.Size = new System.Drawing.Size(100, 20);
             this.txtItterations.TabIndex = 5;
-            this.txtItterations.Text = "100000";
+            this.txtItterations.Text = "300";
             // 
             // label6
             // 
@@ -323,11 +352,33 @@
             this.selSpeed.Value = 67;
             this.selSpeed.Scroll += new System.EventHandler(this.selSpeed_Scroll);
             // 
+            // ckDisplay
+            // 
+            this.ckDisplay.AutoSize = true;
+            this.ckDisplay.Location = new System.Drawing.Point(338, 413);
+            this.ckDisplay.Name = "ckDisplay";
+            this.ckDisplay.Size = new System.Drawing.Size(93, 17);
+            this.ckDisplay.TabIndex = 11;
+            this.ckDisplay.Text = "Display Result";
+            this.ckDisplay.UseVisualStyleBackColor = true;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(13, 399);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(47, 23);
+            this.button1.TabIndex = 12;
+            this.button1.Text = "10K";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(533, 444);
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.ckDisplay);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.sizeGroup);
             this.Controls.Add(this.label6);
@@ -382,6 +433,10 @@
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Label txtSpeed;
         private System.Windows.Forms.TrackBar selSpeed;
+        private System.Windows.Forms.CheckBox ckDisplay;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.CheckBox ckPinkShow;
     }
 }
 
